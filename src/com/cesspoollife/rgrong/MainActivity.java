@@ -80,7 +80,6 @@ public class MainActivity extends Activity implements AsyncResponse{
 				tv.setText(Html.fromHtml(e1.html()));
 				if(e1.nextElementSibling()!=null){
 					ll.findViewById(R.id.is_img).setVisibility(View.VISIBLE);
-					Log.e("img", e1.nextElementSibling().tagName());
 				}
 				e = it.next();
 				tv = (TextView)ll.findViewById(R.id.ownerid);
@@ -133,11 +132,23 @@ public class MainActivity extends Activity implements AsyncResponse{
 			int clnum = cl.getChildCount();
 			if(clnum>1)
 				cl.removeViews(1, cl.getChildCount()-1);
-			while((e = it.next())!=null){
+			while(it.hasNext()){
+				e = it.next();
 				LinearLayout ll = (LinearLayout)getLayoutInflater().inflate(R.layout.linear_img, null);
 				ImageView i = (ImageView)ll.findViewById(R.id.contents_img);
 				HttpImage hi = new HttpImage(i);
 				hi.execute(e.attr("src"));
+				cl.addView(ll);
+			}
+			int numtable = elements.size()-5;
+			for(int i=7;i<numtable;i++){
+				Element e1 = elements.get(i++);
+				LinearLayout ll = (LinearLayout)getLayoutInflater().inflate(R.layout.linear_commnet, null);
+				TextView tv1 = (TextView)ll.findViewById(R.id.comment_userid);
+				tv1.setText(e1.select("b").get(1).html());
+				e1 = elements.get(i);
+				tv1 = (TextView)ll.findViewById(R.id.comment_text);
+				tv1.setText(e1.select(".Apple-style-span").first().child(0).html());
 				cl.addView(ll);
 			}
 		}catch(Exception e){

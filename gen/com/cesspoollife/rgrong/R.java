@@ -42,37 +42,41 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int my_border_background=0x7f020002;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a0016;
-        public static final int commentlist=0x7f0a0008;
-        public static final int contents=0x7f0a0007;
-        public static final int contents_img=0x7f0a000a;
-        public static final int contents_img_layout=0x7f0a0009;
-        public static final int contents_layout=0x7f0a0006;
-        public static final int contentslayout=0x7f0a0002;
-        public static final int contentstime=0x7f0a0005;
-        public static final int contentstitle=0x7f0a0003;
-        public static final int contentsuserid=0x7f0a0004;
-        public static final int contetnsView=0x7f0a0000;
-        public static final int countcomment=0x7f0a0010;
-        public static final int is_img=0x7f0a0014;
-        public static final int list=0x7f0a000e;
-        public static final int listLayout=0x7f0a000d;
-        public static final int listView=0x7f0a000b;
-        public static final int ownerid=0x7f0a0011;
-        public static final int pager=0x7f0a0015;
-        public static final int scrollView=0x7f0a000c;
-        public static final int scrollcontents=0x7f0a0001;
-        public static final int title=0x7f0a000f;
-        public static final int url=0x7f0a0013;
-        public static final int writedtime=0x7f0a0012;
+        public static final int action_settings=0x7f0a0019;
+        public static final int comment_linear=0x7f0a0000;
+        public static final int comment_text=0x7f0a0002;
+        public static final int comment_userid=0x7f0a0001;
+        public static final int commentlist=0x7f0a000b;
+        public static final int contents=0x7f0a000a;
+        public static final int contents_img=0x7f0a000d;
+        public static final int contents_img_layout=0x7f0a000c;
+        public static final int contents_layout=0x7f0a0009;
+        public static final int contentslayout=0x7f0a0005;
+        public static final int contentstime=0x7f0a0008;
+        public static final int contentstitle=0x7f0a0006;
+        public static final int contentsuserid=0x7f0a0007;
+        public static final int contetnsView=0x7f0a0003;
+        public static final int countcomment=0x7f0a0013;
+        public static final int is_img=0x7f0a0017;
+        public static final int list=0x7f0a0011;
+        public static final int listLayout=0x7f0a0010;
+        public static final int listView=0x7f0a000e;
+        public static final int ownerid=0x7f0a0014;
+        public static final int pager=0x7f0a0018;
+        public static final int scrollView=0x7f0a000f;
+        public static final int scrollcontents=0x7f0a0004;
+        public static final int title=0x7f0a0012;
+        public static final int url=0x7f0a0016;
+        public static final int writedtime=0x7f0a0015;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
-        public static final int linear_contents=0x7f030001;
-        public static final int linear_img=0x7f030002;
-        public static final int linear_list=0x7f030003;
-        public static final int list_view=0x7f030004;
-        public static final int main=0x7f030005;
+        public static final int linear_commnet=0x7f030001;
+        public static final int linear_contents=0x7f030002;
+        public static final int linear_img=0x7f030003;
+        public static final int linear_list=0x7f030004;
+        public static final int list_view=0x7f030005;
+        public static final int main=0x7f030006;
     }
     public static final class menu {
         public static final int main=0x7f090000;
