@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/contetnsView" >
+    
+    <ScrollView
+        android:id="@+id/scrollcontents"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+            
+		<LinearLayout
+            android:id="@+id/contentslayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+            
+		    <RelativeLayout
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:background="@color/black_overlay"
+		        android:orientation="vertical" >
+
+		        <TextView
+		            android:id="@+id/contentstitle"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="읽은 글이 없습니다."
+		            android:textColor="@color/title" />
+
+		        <TextView
+		            android:id="@+id/contentsuserid"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_alignParentRight="true"
+		            android:layout_alignParentTop="true"
+		            android:text="아이디" />
+		        
+		        <TextView
+		            android:id="@+id/contentstime"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_alignParentRight="true"
+		            android:layout_below="@+id/contentsuserid"
+		            android:text="00" />
+	            
+	        </RelativeLayout>
+	        
+            <LinearLayout
+                android:id="@+id/contents_layout"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/contents"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/title"
+                    android:textSize="20sp" />
+
+	        </LinearLayout>
+	        
+	        <LinearLayout
+	            android:id="@+id/commentlist"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:orientation="vertical" >
+	        </LinearLayout>
+        </LinearLayout>
+
+        
+    </ScrollView>
+
+</LinearLayout>
