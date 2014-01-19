@@ -1,14 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
-    
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
-       	android:layout_width="fill_parent"
-       	android:layout_height="fill_parent"
-    	>
-    </android.support.v4.view.ViewPager>
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+	    android:layout_height="match_parent" >
+	    
+		<LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	    	android:background="@color/contents_background"
+	    	android:orientation="vertical">
 
-</LinearLayout>
+			<include
+			    android:layout_width="match_parent"
+			    android:layout_height="@dimen/titlebar_height"
+			    layout="@layout/title_bar" />
+		    
+		    <android.support.v4.view.ViewPager
+		        android:id="@+id/pager"
+		       	android:layout_width="match_parent"
+		       	android:layout_height="match_parent"
+		    	>
+		    </android.support.v4.view.ViewPager>
+		</LinearLayout>
+
+		<FrameLayout
+		    android:id="@+id/linear_photo"
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent"
+		    android:gravity="fill"
+		    android:orientation="vertical"
+		    android:visibility="invisible"
+		    android:background="@color/contents_background" >
+		    
+		    <RelativeLayout
+		    	android:layout_width="match_parent"
+		    	android:layout_height="match_parent"
+		    	android:background="@android:color/transparent" >  	
+		       	<uk.co.senab.photoview.PhotoView
+				    android:id="@+id/photoview"
+				    android:layout_width="match_parent"
+				    android:layout_height="match_parent"
+				    android:adjustViewBounds="true"
+				    android:scaleType="fitCenter" />
+		    </RelativeLayout>
+	       	
+		    <RelativeLayout
+		    	android:layout_width="match_parent"
+		    	android:layout_height="match_parent"
+		    	android:background="@android:color/transparent" > 
+		       	<RelativeLayout
+			    	android:layout_width="match_parent"
+			    	android:layout_height="50dp"
+			    	android:layout_alignParentBottom="true"
+			    	android:background="@color/black_overlay" >   	
+			       	<TextView
+		       	        android:id="@+id/save_img"
+		       	        android:layout_width="200dp"
+		       	        android:layout_height="50dp"
+		       	        android:gravity="center"
+		       	        android:layout_alignParentBottom="true"
+		       	        android:layout_toLeftOf="@+id/relatvie_center"
+		       	        android:text="@string/fa_download"
+		       	        android:textSize="@dimen/img_font"/>
+			       	<TextView
+			       	    android:id="@+id/relatvie_center"
+			       	    android:layout_width="1dp"
+			       	    android:layout_height="50dp"
+			       	    android:layout_centerInParent="true"/>
+		       	    
+		       	    <TextView
+		       	        android:id="@+id/share_img"
+		       	        android:layout_width="200dp"
+		       	        android:layout_height="50dp"
+		       	        android:gravity="center"
+		       	        android:layout_alignParentBottom="true"
+		       	        android:layout_toRightOf="@+id/relatvie_center"
+		       	        android:text="@string/fa_share"
+		       	        android:textSize="@dimen/img_font"/>
+	
+				</RelativeLayout>
+			</RelativeLayout>
+		</FrameLayout>
+
+
+	</FrameLayout>
+
+    <ListView android:id="@+id/left_drawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:divider="@color/contents_background"
+        android:background="@color/slidemenu_background"
+        android:dividerHeight="0dp"/>
+
+    
+</android.support.v4.widget.DrawerLayout>

@@ -7,5 +7,21 @@
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-
+    <string name="id">시궁창인생</string>
+    <string name="title">시궁창인생</string>
+    <string name="contents">시궁창인생</string>
+    <string name="time">2014"-"01"-"01</string>
+    <string name="no_contents">읽은 내용이 없습니다.</string>
+	<string name="image">이미지</string>
+	<string name="spinner">&#xf110;</string>
+	<string name="menu">메뉴</string>
+	<string name="fa_share">&#xf064;</string>
+	<string name="fa_download">&#xf019;</string>
+	<string name="fa_bar">&#xf0c9;</string>
+	<string name="fa_cog">&#xf013;</string>
+	<string name="fa_pencil">&#xf040;</string>
+	<string name="fa_undo">&#xf0e2;</string>
+	<string name="fa_quote_left">&#xf10d;</string>
+	<string name="fa_times">&#xf00d;</string>
+	<string name="slide_comment_text">댓글 입력</string>
 </resources>

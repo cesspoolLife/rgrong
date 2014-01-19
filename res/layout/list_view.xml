@@ -1,70 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:id="@+id/list"
-    android:background="@drawable/my_border_background" >
+    android:paddingRight="8dp"
+    android:paddingLeft="2dp"
+    android:paddingTop="@dimen/list_paddingtop" >
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="70dp" >
+    <TextView
+        android:id="@+id/countcomment"
+        android:layout_width="@dimen/list_count_width"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/hello_world"
+        android:textSize="@dimen/list_count_text_size"
+        android:textStyle="bold" />
+    
+    <ImageView
+        android:id="@+id/is_img"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/hello_world"
+        android:src="@drawable/img"
+        android:visibility="visible" />
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/countcomment"
-            android:gravity="center_vertical"
-            android:paddingLeft="5dp"
-            android:text="Hello World"
-            android:textSize="20dp" />
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/countcomment"
+        android:layout_toLeftOf="@id/is_img"
+        android:gravity="center_vertical"
+        android:text="@string/hello_world"
+        android:textSize="@dimen/list_title_text_size"
+        android:textStyle="bold" />
+    
+    <TextView
+        android:id="@+id/ownerid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:layout_below="@id/title"
+        android:layout_alignLeft="@id/title"
+        android:layout_alignParentBottom="true"
+        android:text="@string/hello_world"
+        android:textSize="@dimen/list_ect_text_size" />
 
-        <TextView
-            android:id="@+id/countcomment"
-            android:layout_width="30dp"
-            android:layout_height="70dp"
-            android:layout_alignParentLeft="true"
-            android:gravity="center"
-            android:text="20"
-            android:textSize="20dp" />
-
-        <TextView
-            android:id="@+id/ownerid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/countcomment"
-            android:layout_alignParentBottom="true"
-            android:paddingLeft="50dp"
-            android:text="TextView"
-            android:textSize="10dp" />
-
-        <TextView
-            android:id="@+id/writedtime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:text="TextView"
-            android:textSize="10dp" />
-        
-        <TextView
-            android:id="@+id/url"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/is_img"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:adjustViewBounds="true"
-            android:src="@drawable/img"
-            android:visibility="gone" />
-        
-    </RelativeLayout>
-
-</LinearLayout>
+    <TextView
+        android:id="@+id/writedtime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/hello_world"
+        android:textSize="@dimen/list_ect_text_size" />
+    
+    <TextView
+        android:id="@+id/list_url"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone" />
+    
+</RelativeLayout>

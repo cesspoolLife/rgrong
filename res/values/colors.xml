@@ -1,6 +1,27 @@
 <resources>
 
     <color name="black_overlay">#66000000</color>
-    <color name="title">#000000</color>
+    <color name="title_background">#FFFFFF</color>
+    <color name="title_text">#000000</color>
+    <color name="contents_background">#CCCCCC</color>
 
+    <color name="commnet_gen">#1abc9c</color>
+    <color name="commnet_five">#28b362</color>
+    <color name="comment_ten">#e67e22</color>
+    <color name="comment_thirty">#f1c40f</color>
+    <color name="comment_hundred">#9b59b6</color>
+    <color name="list_now">#c0392b</color>
+    <color name="list_sec">#d35400</color>
+    <color name="list_min">#000000</color>
+    
+    <!-- 타이틀바 -->
+    <color name="titlebar_background">#2980b9</color>
+    <color name="titlebar_text_color">#ecf0f1</color>
+    
+    <!-- 슬라이드 매뉴 -->
+    <color name="slidemenu_background">#2d2f33</color>
+    <color name="slidemenu_textcolor">#ffffff</color>
+    
+    <!-- 슬라이딩 레이아웃 -->
+    <color name="sliding_background">#ecf0f1</color>
 </resources>
