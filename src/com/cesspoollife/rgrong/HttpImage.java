@@ -53,6 +53,7 @@ public class HttpImage extends AsyncTask<String, Void, Bitmap> {
     		bmImage.setImageBitmap(result);
     		bmImage.setAdjustViewBounds(true);
     	}catch(Exception e){
+    		Log.e("image-error", e.toString());
   //  		Ion.with(bmImage).load(url);
     	}
     }

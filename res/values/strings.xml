@@ -20,8 +20,12 @@
 	<string name="fa_bar">&#xf0c9;</string>
 	<string name="fa_cog">&#xf013;</string>
 	<string name="fa_pencil">&#xf040;</string>
+	<string name="fa_pencil_square_o">&#xf044;</string>
 	<string name="fa_undo">&#xf0e2;</string>
 	<string name="fa_quote_left">&#xf10d;</string>
 	<string name="fa_times">&#xf00d;</string>
 	<string name="slide_comment_text">댓글 입력</string>
+	<string name="slide_write_subject_text">제목 : </string>
+	<string name="slide_write_memo_text">내용 : </string>
+	<string name="slide_write_image_btn_text">사진추가</string>
 </resources>

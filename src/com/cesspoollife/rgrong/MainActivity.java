@@ -1,7 +1,5 @@
 package com.cesspoollife.rgrong;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -9,7 +7,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -26,6 +23,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -41,16 +39,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
-import android.view.inputmethod.InputMethodManager;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,10 +59,12 @@ import com.koushikdutta.ion.Ion;
 @SuppressWarnings("deprecation")
 public class MainActivity extends Activity implements AsyncResponse{
 	
-	private static final int LOGIN_ACTIVITY = 1;
+	public static final int LOGIN_ACTIVITY = 1;
+	public static final int SELECT_PICTURE = 2;
 	private ViewPager mPager;
 	private String menu = "mlist.php?id=rgr201311";
 	private String commentUrl = "http://rgrong.kr/bbs/vote_ex.php";
+	private String writeUrl = "http://rgrong.kr/m/write_ok.php";
 	private String menuText = "호기심해결";
 	private boolean init = true;
 	private int firstNo = 0;
@@ -84,6 +82,8 @@ public class MainActivity extends Activity implements AsyncResponse{
 	private ArrayAdapterItem menuAdapter;
 	private List<ObjectItem> ObjectMenuData;
 	private String URL;
+	private String writePage;
+	private ArrayList<String> uploadImagePath = new ArrayList<String>();
 	
 	private String[] menuName = {"로그인", "호기심해결", "모바일게임", "엽기/유머/레어", "명예의전당", "황당뉴스", "야구",
 			"스포츠", "연애특강", "큰마을", "연예인갤러리", "게임", "중고장터", "캥거루몰", "브랜디드", 
@@ -125,81 +125,13 @@ public class MainActivity extends Activity implements AsyncResponse{
 	    			tv.setText(R.string.fa_pencil);
 	    			tv.setTextSize((float)(getResources().getDimension(R.dimen.titlebar_btn_size)));
 	    			tv.setTypeface(fontawesome);
-	    			tv.setOnClickListener(new OnClickListener(){
-
-						@Override
-						public void onClick(View v) {
-							SlidingDrawer sl = (SlidingDrawer)findViewById(R.id.slide_comment);
-							if(!sl.isOpened()){
-								TextView tv = (TextView)findViewById(R.id.title_bar_left_sec_btn);
-				    			tv.setText(R.string.fa_times);
-				    			tv.setTextSize((float)(getResources().getDimension(R.dimen.titlebar_btn_size)));
-				    			tv.setTypeface(fontawesome);
-				    			tv.setOnClickListener(new OnClickListener(){
-
-									@Override
-									public void onClick(View v) {
-										((TextView)v).setText("");
-										((TextView)v).setTextSize((float)(getResources().getDimension(R.dimen.titlebar_btn_size)));
-										((TextView)v).setTypeface(fontawesome);
-										EditText et = (EditText)findViewById(R.id.slide_memo);
-										InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-										imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
-										SlidingDrawer sl = (SlidingDrawer)findViewById(R.id.slide_comment);
-										sl.animateOpen();
-									}
-				    				
-				    			});
-								EditText et = (EditText)findViewById(R.id.slide_memo);
-								et.requestFocus();
-							}else{
-								TextView tv = (TextView)findViewById(R.id.title_bar_left_sec_btn);
-				    			tv.setText("");
-				    			tv.setTextSize((float)(getResources().getDimension(R.dimen.titlebar_btn_size)));
-				    			tv.setTypeface(fontawesome);
-				    			tv.setOnClickListener(null);
-								EditText et = (EditText)findViewById(R.id.slide_memo);
-								InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-								imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
-								ArrayList<NameValuePair> data = new ArrayList<NameValuePair>();
-								data.add(new BasicNameValuePair("url", commentUrl));
-								data.add(new BasicNameValuePair("Referer", "http://rgrong.kr/m/"+URL));
-								data.add(new BasicNameValuePair("memo",et.getText().toString()));
-							    List<NameValuePair> parameters;
-								try {
-									parameters = URLEncodedUtils.parse(new URI(URL), "EUC-KR");
-									for (NameValuePair p : parameters) {
-										String name = p.getName();
-										String value = p.getValue();
-										if(value==null)
-											value="";
-								        data.add(new BasicNameValuePair(name, value));
-								    }
-								} catch (URISyntaxException e) {
-									
-								}
-								getHttpAsync(data);
-								et.setText("");
-							}
-							sl.animateOpen();
-						}
-					});
+	    			tv.setOnClickListener(new CommentClickEvent());
 				}else{
 					TextView tv = (TextView)findViewById(R.id.title_bar_left_first_btn);
-	    			tv.setText(R.string.fa_cog);
+	    			tv.setText(R.string.fa_pencil_square_o);
 	    			tv.setTextSize((float)(getResources().getDimension(R.dimen.titlebar_btn_size)));
 	    			tv.setTypeface(fontawesome);
-	    			tv.setOnClickListener(new OnClickListener(){
-
-	    				@Override
-	    				public void onClick(View v) {
-	    					Intent intent = new Intent(v.getContext(),LoginActivity.class);
-	    					intent.putExtra("login", login);
-	    					startActivityForResult(intent, LOGIN_ACTIVITY);
-	    					mPager.setCurrentItem(0);
-	    				}
-	    				
-	    			});
+	    			tv.setOnClickListener(new WriteClickEvent());
 				}
 			}
 			
@@ -267,19 +199,10 @@ public class MainActivity extends Activity implements AsyncResponse{
 			
 		});
 		tv = (TextView)findViewById(R.id.title_bar_left_first_btn);
+		tv.setText(R.string.fa_pencil_square_o);
 		tv.setTextSize((float)(getResources().getDimension(R.dimen.titlebar_btn_size)));
 		tv.setTypeface(fontawesome);
-		tv.setOnClickListener(new OnClickListener(){
-
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(v.getContext(),LoginActivity.class);
-				intent.putExtra("login", login);
-				startActivityForResult(intent, LOGIN_ACTIVITY);
-				mPager.setCurrentItem(0);
-			}
-			
-		});
+		tv.setOnClickListener(new WriteClickEvent());
 	}
 	
 	@Override
@@ -368,10 +291,47 @@ public class MainActivity extends Activity implements AsyncResponse{
 				ObjectMenuData.add(0, new ObjectItem(0,menuName[0],menuUrl[0]));
 				menuAdapter.notifyDataSetChanged();
 			}
+		}else if(requestCode==SELECT_PICTURE){
+			if (resultCode == RESULT_OK) {
+				Uri selectedImageUri = data.getData();
+                String selectedImagePath = getPath(selectedImageUri);
+                uploadImagePath.add(selectedImagePath);
+                LinearLayout ll = (LinearLayout)findViewById(R.id.slide_write_image_layout);
+                TextView tv = new TextView(this);
+                tv.setText(selectedImagePath);
+                tv.setId(5);
+                tv.setLayoutParams(new LayoutParams(
+                        LayoutParams.WRAP_CONTENT,
+                        LayoutParams.WRAP_CONTENT));
+                ll.addView(tv);
+			}
 		}else{
 			super.onActivityResult(requestCode, resultCode, data);
 		}
 	}
+	
+	/**
+     * helper to retrieve the path of an image URI
+     */
+    public String getPath(Uri uri) {
+            // just some safety built in 
+            if( uri == null ) {
+                // TODO perform some logging or show user feedback
+                return null;
+            }
+            // try to retrieve the image from the media store first
+            // this will only work for images selected from gallery
+            String[] projection = { MediaStore.Images.Media.DATA };
+            Cursor cursor = managedQuery(uri, projection, null, null, null);
+            if( cursor != null ){
+                int column_index = cursor
+                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                cursor.moveToFirst();
+                return cursor.getString(column_index);
+            }
+            // this is our fallback here
+            return uri.getPath();
+    }
 
 	@SuppressWarnings("unchecked")
 	public void getHttpAsync(int page){
@@ -408,13 +368,25 @@ public class MainActivity extends Activity implements AsyncResponse{
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
+	public void getHttpWrite(ArrayList<NameValuePair> data){
+		AsyncHttp http = new AsyncHttp();
+		http.setAsyncResponse(this, "write");
+		http.execute(data);
+	}
+	
 	public void processFinish(Document doc){
 		int firstTmp = 0;
 		int lastTmp = 9999999;
 		if(addPre){
 			list.clear();
 		}
-		try{			 
+		try{
+			Pattern p = Pattern.compile("(write.php?.*)\\\">");
+			Matcher m = p.matcher(doc.toString());
+			if(m.find()){
+				writePage = m.group(1).replace("&amp;", "&");
+			}
 			Elements elements = doc.select("span");
 			Iterator<Element> it = elements.iterator();
 			Element e = null;
@@ -633,6 +605,42 @@ public class MainActivity extends Activity implements AsyncResponse{
 		return true;
 	}
 	
+	public void setURL(String url){
+		this.URL = url;
+	}
+	
+	public String getURL(){
+		return this.URL;
+	}
+	
+	public void setWritePage(String writepage){
+		this.writePage = writepage;
+	}
+	
+	public void setCommentURL(String commenturl){
+		this.commentUrl = commenturl;
+	}
+	
+	public String getCommentURL(){
+		return this.commentUrl;
+	}
+	
+	public String getWritePage(){
+		return this.writePage;
+	}
+	
+	public String getWriteURL(){
+		return this.writeUrl;
+	}
+	
+	public ArrayList<String> getUploadImagePath(){
+		return this.uploadImagePath;
+	}
+	
+	public int getSelectPicture(){
+		return MainActivity.SELECT_PICTURE;
+	}
+	
 	/**
 	 * PagerAdapter 
 	 */
@@ -664,6 +672,8 @@ public class MainActivity extends Activity implements AsyncResponse{
 
     					public void onRefresh() {
     						addPre = true;
+    						firstNo = 0;
+    						lastNo = 99999999;
     						getHttpAsync(page=1);
     					}
     				});

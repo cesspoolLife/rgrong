@@ -1,12 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.costum.android.widget.PullAndLoadListView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/list_view"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_gravity="start"
-    android:choiceMode="singleChoice"
-    android:divider="@color/contents_background"
-    android:background="@color/title_background"
-    android:dividerHeight="1dp" >
- </com.costum.android.widget.PullAndLoadListView>
+    android:layout_height="match_parent" >
+	<com.costum.android.widget.PullAndLoadListView 
+	    android:id="@+id/list_view"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:layout_gravity="start"
+	    android:choiceMode="singleChoice"
+	    android:divider="@color/contents_background"
+	    android:background="@color/title_background"
+	    android:dividerHeight="1dp" >
+	 </com.costum.android.widget.PullAndLoadListView>
+	 
+	 <SlidingDrawer
+        android:id="@+id/slide_write"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:content="@+id/slide_write_scroll"
+        android:handle="@+id/slide_write_handle"
+        android:layout_alignParentBottom="true"
+        android:allowSingleTap="true"
+        android:animateOnClick="true" >
+
+        <Button
+            android:id="@+id/slide_write_handle"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="@string/hello_world" />
+        
+        <ScrollView
+	    	android:layout_width="match_parent"
+	    	android:layout_height="match_parent"
+	    	android:id="@+id/slide_write_scroll"
+	       	android:background="@color/sliding_background"
+	       	android:padding="10dp" >
+
+	        <RelativeLayout
+	            android:id="@+id/slide_write_layout"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content" >
+	
+	            <TextView
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_alignParentLeft="true"
+	                android:layout_alignParentTop="true"
+	                android:id="@+id/slide_write_subject_text"
+	                android:text="@string/slide_write_subject_text"
+	                android:textColor="@android:color/black"
+	                android:textSize="@dimen/sliding_comment_text_size" />
+	            
+	            <EditText
+	                android:id="@+id/slide_write_subject"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_below="@id/slide_write_subject_text"
+	                android:ems="1"
+	                android:inputType="textMultiLine"
+	                android:textColor="@android:color/black"
+	                android:textCursorDrawable="@null" >
+	                <requestFocus />
+	            </EditText>
+	            
+	           	<TextView
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_below="@id/slide_write_subject"
+	                android:id="@+id/slide_write_memo_text"
+	                android:text="@string/slide_write_memo_text"
+	                android:textColor="@android:color/black"
+	                android:textSize="@dimen/sliding_comment_text_size" />
+	            
+	            <EditText
+	                android:id="@+id/slide_write_memo"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_below="@id/slide_write_memo_text"
+	                android:ems="1"
+	                android:inputType="textMultiLine"
+	                android:textColor="@android:color/black"
+	                android:textCursorDrawable="@null" >
+	            </EditText>
+	            
+	            <Button 
+	                android:layout_below="@id/slide_write_memo"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:id="@+id/slide_write_file_btn"
+	                android:text="@string/slide_write_image_btn_text" />
+	            
+	            <LinearLayout
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_below="@id/slide_write_file_btn"
+	                android:id="@+id/slide_write_image_layout"
+	                android:orientation="vertical">
+	            </LinearLayout>
+	
+	        </RelativeLayout>
+	  	</ScrollView>
+    </SlidingDrawer>
+ </RelativeLayout>
 
