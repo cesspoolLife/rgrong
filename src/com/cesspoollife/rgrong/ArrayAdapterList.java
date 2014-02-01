@@ -85,7 +85,7 @@ public class ArrayAdapterList extends ArrayAdapter<ListObject>{
         TextView comment = (TextView) convertView.findViewById(R.id.countcomment);
         comment.setText(object.comment_num);
         comment.setGravity(Gravity.CENTER);
-        int comment_num= Integer.parseInt(object.comment_num.length()!=0?object.comment_num.trim():"0");
+        int comment_num= Integer.parseInt(object.comment_num.trim().length()!=0?object.comment_num.trim():"0");
         if(comment_num>=100){
         	comment.setTextSize(parent.getResources().getDimension(R.dimen.list_count_text_size_small));
         	comment.setTextColor(parent.getResources().getColor(R.color.comment_hundred));

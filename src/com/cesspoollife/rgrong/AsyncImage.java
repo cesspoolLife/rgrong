@@ -11,12 +11,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-public class HttpImage extends AsyncTask<String, Void, Bitmap> {
+public class AsyncImage extends AsyncTask<String, Void, Bitmap> {
     ImageView bmImage;
     ProgressBar mProgressBar;
     String url = "";
 
-    public HttpImage(ImageView bmImage, ProgressBar pv) {
+    public AsyncImage(ImageView bmImage, ProgressBar pv) {
         this.bmImage = bmImage;
         this.mProgressBar = pv;
     }

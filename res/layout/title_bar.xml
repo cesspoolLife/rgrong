@@ -16,6 +16,8 @@
         android:textSize="@dimen/titlebar_btn_size"
         android:id="@+id/title_bar_menu_btn"
         android:textColor="@color/titlebar_text_color" />
+    
+    
 	
     <TextView 
         android:layout_width="wrap_content"
@@ -47,5 +49,6 @@
         android:textSize="@dimen/titlebar_btn_size"
         android:id="@+id/title_bar_left_sec_btn"
         android:textColor="@color/titlebar_text_color"/>
+
 
 </RelativeLayout>

@@ -5,13 +5,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -29,6 +28,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Html;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -40,6 +40,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FrameLayout;
@@ -49,13 +50,14 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.costum.android.widget.PullAndLoadListView;
 import com.costum.android.widget.PullAndLoadListView.OnLoadMoreListener;
 import com.costum.android.widget.PullToRefreshListView.OnRefreshListener;
+import com.google.android.youtube.player.YouTubeIntents;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
+@SuppressLint("SetJavaScriptEnabled")
 @SuppressWarnings("deprecation")
 public class MainActivity extends Activity implements AsyncResponse{
 	
@@ -125,13 +127,28 @@ public class MainActivity extends Activity implements AsyncResponse{
 	    			tv.setText(R.string.fa_pencil);
 	    			tv.setTextSize((float)(getResources().getDimension(R.dimen.titlebar_btn_size)));
 	    			tv.setTypeface(fontawesome);
-	    			tv.setOnClickListener(new CommentClickEvent());
+	    			tv.setOnClickListener(new ClickEventComment());
+				}else if(login==0){
+					TextView tv = (TextView)findViewById(R.id.title_bar_left_first_btn);
+	    			tv.setText(R.string.fa_cog);
+	    			tv.setTextSize((float)(getResources().getDimension(R.dimen.titlebar_btn_size)));
+	    			tv.setTypeface(fontawesome);
+	    			tv.setOnClickListener(new OnClickListener(){
+
+						@Override
+						public void onClick(View view) {
+							Intent intent = new Intent(view.getContext(),LoginActivity.class);
+							intent.putExtra("login", login);
+							startActivityForResult(intent, LOGIN_ACTIVITY);
+						}
+	    				
+	    			});
 				}else{
 					TextView tv = (TextView)findViewById(R.id.title_bar_left_first_btn);
 	    			tv.setText(R.string.fa_pencil_square_o);
 	    			tv.setTextSize((float)(getResources().getDimension(R.dimen.titlebar_btn_size)));
 	    			tv.setTypeface(fontawesome);
-	    			tv.setOnClickListener(new WriteClickEvent());
+	    			tv.setOnClickListener(new ClickEventWrite());
 				}
 			}
 			
@@ -199,10 +216,20 @@ public class MainActivity extends Activity implements AsyncResponse{
 			
 		});
 		tv = (TextView)findViewById(R.id.title_bar_left_first_btn);
-		tv.setText(R.string.fa_pencil_square_o);
+		tv.setText(R.string.fa_cog);
 		tv.setTextSize((float)(getResources().getDimension(R.dimen.titlebar_btn_size)));
 		tv.setTypeface(fontawesome);
-		tv.setOnClickListener(new WriteClickEvent());
+		tv.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View view) {
+				Intent intent = new Intent(view.getContext(),LoginActivity.class);
+				intent.putExtra("login", login);
+				startActivityForResult(intent, LOGIN_ACTIVITY);
+			}
+			
+		});
+
 	}
 	
 	@Override
@@ -290,6 +317,11 @@ public class MainActivity extends Activity implements AsyncResponse{
 				ObjectMenuData.remove(0);
 				ObjectMenuData.add(0, new ObjectItem(0,menuName[0],menuUrl[0]));
 				menuAdapter.notifyDataSetChanged();
+				TextView tv = (TextView)findViewById(R.id.title_bar_left_first_btn);
+    			tv.setText(R.string.fa_pencil_square_o);
+    			tv.setTextSize((float)(getResources().getDimension(R.dimen.titlebar_btn_size)));
+    			tv.setTypeface(fontawesome);
+    			tv.setOnClickListener(new ClickEventWrite());
 			}
 		}else if(requestCode==SELECT_PICTURE){
 			if (resultCode == RESULT_OK) {
@@ -381,7 +413,9 @@ public class MainActivity extends Activity implements AsyncResponse{
 		if(addPre){
 			list.clear();
 		}
+		
 		try{
+			//글쓰기 페이지
 			Pattern p = Pattern.compile("(write.php?.*)\\\">");
 			Matcher m = p.matcher(doc.toString());
 			if(m.find()){
@@ -413,6 +447,8 @@ public class MainActivity extends Activity implements AsyncResponse{
 				if(e1.nextElementSibling()!=null){
 					isimg = true;
 				}
+				if(e1.getElementsByTag("span").size()>0)
+					e = it.next();
 				e = it.next();
 				String id = e.html();
 				nickname = id.substring(0, id.indexOf("<"));
@@ -472,6 +508,10 @@ public class MainActivity extends Activity implements AsyncResponse{
 	
 	public void contentsFinish(Document doc){
 		try{
+			LinearLayout cl = (LinearLayout)findViewById(R.id.contents_layout);
+			int clnum = cl.getChildCount();
+			if(clnum>0)
+				cl.removeViews(0, cl.getChildCount());
 			Element e = doc.getElementById("ArticleVTitle");
 			TextView tv = (TextView)findViewById(R.id.contentstitle);
 			tv.setText(Html.fromHtml(e.getElementsByTag("font").first().html()));
@@ -485,8 +525,12 @@ public class MainActivity extends Activity implements AsyncResponse{
 				tv.setText("비공개");
 			elements = doc.getElementsByTag("table");
 			e = elements.get(5).getElementsByTag("td").first();
-			tv = (TextView)findViewById(R.id.contents);
-			tv.setText(Html.fromHtml(e.html()).toString().trim());
+			TextView contents = new TextView(this);
+			contents.setText(Html.fromHtml(e.html().trim()));
+			contents.setTextSize(20);
+			contents.setTypeface(null, Typeface.BOLD);
+			Linkify.addLinks(contents, Linkify.ALL);
+			cl.addView(contents);
 			Pattern p = Pattern.compile("\\d{4}\\.\\d{2}\\.\\d{2} (\\d{2}\\:\\d{2}\\:\\d{2})");
 			Matcher m = p.matcher(doc.toString());
 			if(m.find()){
@@ -494,10 +538,6 @@ public class MainActivity extends Activity implements AsyncResponse{
 				tv.setText(m.group(1));
 			}
 			Iterator<Element> it = doc.getElementsByAttributeValue("name", "zb_target_resize").iterator();
-			LinearLayout cl = (LinearLayout)findViewById(R.id.contents_layout);
-			int clnum = cl.getChildCount();
-			if(clnum>0)
-				cl.removeViews(0, cl.getChildCount()-1);
 			int j=0;
 			while(it.hasNext()){
 				e = it.next();
@@ -505,7 +545,7 @@ public class MainActivity extends Activity implements AsyncResponse{
 				ImageView i = (ImageView)ll.findViewById(R.id.contents_img);
 				i.setTag(e.attr("src"));
 				if(e.attr("src").indexOf(".gif")==-1){
-					HttpImage hi = new HttpImage(i, (ProgressBar)ll.findViewById(R.id.progressBar_img));
+					AsyncImage hi = new AsyncImage(i, (ProgressBar)ll.findViewById(R.id.progressBar_img));
 					hi.execute(e.attr("src"));
 				}else{
 					Ion.with(i).load(e.attr("src")).setCallback(new FutureCallback<ImageView>(){
@@ -543,6 +583,34 @@ public class MainActivity extends Activity implements AsyncResponse{
 				cl.addView(ll, j++);
 				registerForContextMenu(cl);
 			}
+			p = Pattern.compile("www\\.youtube\\.com\\/v\\/([a-zA-Z0-9_\\-]+)\\?");
+			m = p.matcher(doc.toString());
+			String prev_id = "";
+			while(m.find()){
+				if(prev_id.equals(m.group(1)))
+					continue;
+				prev_id = m.group(1);
+				String html_value = "<iframe src=\"http://www.youtube.com/embed/"+prev_id+"\""
+						+ " width=\"*\" height=\"*\"></iframe>";
+				LinearLayout ll = (LinearLayout)getLayoutInflater().inflate(R.layout.youtube_view, null);
+				WebView browser = (WebView)ll.findViewById(R.id.youtube_webview);
+				browser.getSettings().setJavaScriptEnabled(true);
+		        browser.loadData(html_value, "text/html", "UTF-8");
+		        TextView youtubetextview = (TextView)ll.findViewById(R.id.youtube_intent_start);
+		        youtubetextview.setTag(prev_id);
+		        youtubetextview.setText(R.string.youtube_fullscreen);
+		        youtubetextview.setOnClickListener(new OnClickListener(){
+
+					@Override
+					public void onClick(View v) {
+						String video_id = (String) v.getTag();
+						Intent intent = YouTubeIntents.createPlayVideoIntentWithOptions(v.getContext(), video_id, true, false);
+				        startActivity(intent);
+					}
+		        	
+		        });
+		        cl.addView(ll, j++);
+			}
 			int numtable = elements.size()-5-login;
 			cl = (LinearLayout)findViewById(R.id.commentlist);
 			clnum = cl.getChildCount();
@@ -556,9 +624,11 @@ public class MainActivity extends Activity implements AsyncResponse{
 				Element e1 = elements.get(i++);
 				tv1 = (TextView)ll.findViewById(R.id.comment_userid);
 				tv1.setText(e1.select("b").get(1).html());
+				Linkify.addLinks(tv1, Linkify.ALL);
 				e1 = elements.get(i);
 				tv1 = (TextView)ll.findViewById(R.id.comment_text);
 				tv1.setText(Html.fromHtml(e1.select(".Apple-style-span").first().child(0).html()));
+				Linkify.addLinks(tv1, Linkify.ALL);
 				cl.addView(ll);
 			}
 		}catch(Exception e){
@@ -583,6 +653,11 @@ public class MainActivity extends Activity implements AsyncResponse{
 				ObjectMenuData.remove(0);
 				ObjectMenuData.add(0, new ObjectItem(0,menuName[0],menuUrl[0]));
 				menuAdapter.notifyDataSetChanged();
+				TextView tv = (TextView)findViewById(R.id.title_bar_left_first_btn);
+    			tv.setText(R.string.fa_pencil_square_o);
+    			tv.setTextSize((float)(getResources().getDimension(R.dimen.titlebar_btn_size)));
+    			tv.setTypeface(fontawesome);
+    			tv.setOnClickListener(new ClickEventWrite());
 			}else{
 				Toast.makeText(this, "로그인에 실패했습니다.", Toast.LENGTH_SHORT).show();
 			}

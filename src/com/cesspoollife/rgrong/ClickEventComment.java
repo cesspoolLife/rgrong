@@ -19,7 +19,7 @@ import android.widget.SlidingDrawer;
 import android.widget.TextView;
 
 @SuppressWarnings("deprecation")
-public class CommentClickEvent implements OnClickListener {
+public class ClickEventComment implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {

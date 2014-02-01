@@ -13,8 +13,8 @@
     <string name="time">2014"-"01"-"01</string>
     <string name="no_contents">읽은 내용이 없습니다.</string>
 	<string name="image">이미지</string>
-	<string name="spinner">&#xf110;</string>
 	<string name="menu">메뉴</string>
+	<string name="fa_spinner">&#xf110;</string>
 	<string name="fa_share">&#xf064;</string>
 	<string name="fa_download">&#xf019;</string>
 	<string name="fa_bar">&#xf0c9;</string>
@@ -28,4 +28,5 @@
 	<string name="slide_write_subject_text">제목 : </string>
 	<string name="slide_write_memo_text">내용 : </string>
 	<string name="slide_write_image_btn_text">사진추가</string>
+	<string name="youtube_fullscreen"><u>전체화면으로보기</u></string>
 </resources>

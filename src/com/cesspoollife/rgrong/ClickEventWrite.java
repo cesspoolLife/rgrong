@@ -17,11 +17,12 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
 
 @SuppressWarnings("deprecation")
-public class WriteClickEvent implements OnClickListener {
+public class ClickEventWrite implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
@@ -48,6 +49,11 @@ public class WriteClickEvent implements OnClickListener {
 					imm.hideSoftInputFromWindow(memo.getWindowToken(), 0);
 					SlidingDrawer sl = (SlidingDrawer)v.getRootView().findViewById(R.id.slide_write);
 					sl.animateOpen();
+					subject.setText("");
+					memo.setText("");
+					((MainActivity)v.getRootView().getContext()).getUploadImagePath().clear();
+					LinearLayout ll = (LinearLayout)v.getRootView().findViewById(R.id.slide_write_image_layout);
+					ll.removeAllViews();
 				}
 				
 			});
@@ -102,6 +108,8 @@ public class WriteClickEvent implements OnClickListener {
 			subject.setText("");
 			memo.setText("");
 			((MainActivity)c).getUploadImagePath().clear();
+			LinearLayout ll = (LinearLayout)v.getRootView().findViewById(R.id.slide_write_image_layout);
+			ll.removeAllViews();
 		}
 		sl.animateOpen();
 	}

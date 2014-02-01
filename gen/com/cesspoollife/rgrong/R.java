@@ -82,13 +82,15 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int ic_launcher=0x7f020001;
         public static final int ic_pulltorefresh_arrow=0x7f020002;
         public static final int img=0x7f020003;
-        public static final int progress_animation=0x7f020004;
-        public static final int spinner=0x7f020005;
+        public static final int loader=0x7f020004;
+        public static final int loader_animation=0x7f020005;
+        public static final int progress_animation=0x7f020006;
+        public static final int spinner=0x7f020007;
     }
     public static final class id {
         public static final int Frame_no_contents=0x7f0a001c;
-        public static final int action_forgot_password=0x7f0a004b;
-        public static final int action_settings=0x7f0a004c;
+        public static final int action_forgot_password=0x7f0a004d;
+        public static final int action_settings=0x7f0a004e;
         public static final int auto_login=0x7f0a0007;
         public static final int comment_linear=0x7f0a000b;
         public static final int comment_num=0x7f0a000c;
@@ -163,6 +165,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int top_line=0x7f0a0034;
         public static final int url_menu=0x7f0a003f;
         public static final int writedtime=0x7f0a0031;
+        public static final int youtube_intent_start=0x7f0a004c;
+        public static final int youtube_webview=0x7f0a004b;
     }
     public static final class layout {
         public static final int activity_login=0x7f030000;
@@ -179,27 +183,28 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int pull_to_refresh_header=0x7f03000b;
         public static final int spinner_layout=0x7f03000c;
         public static final int title_bar=0x7f03000d;
+        public static final int youtube_view=0x7f03000e;
     }
     public static final class menu {
         public static final int login=0x7f090000;
         public static final int main=0x7f090001;
     }
     public static final class string {
-        public static final int action_forgot_password=0x7f060028;
-        public static final int action_login=0x7f060023;
-        public static final int action_logout=0x7f060024;
+        public static final int action_forgot_password=0x7f060029;
+        public static final int action_login=0x7f060024;
+        public static final int action_logout=0x7f060025;
         public static final int action_settings=0x7f060006;
-        public static final int action_sign_in_register=0x7f060026;
-        public static final int action_sign_in_short=0x7f060027;
+        public static final int action_sign_in_register=0x7f060027;
+        public static final int action_sign_in_short=0x7f060028;
         public static final int app_name=0x7f060001;
-        public static final int auto_login_text=0x7f060025;
+        public static final int auto_login_text=0x7f060026;
         public static final int contents=0x7f06000d;
         public static final int dummy_button=0x7f060009;
         public static final int dummy_content=0x7f06000a;
-        public static final int error_field_required=0x7f06002d;
-        public static final int error_incorrect_password=0x7f06002c;
-        public static final int error_invalid_email=0x7f06002a;
-        public static final int error_invalid_password=0x7f06002b;
+        public static final int error_field_required=0x7f06002e;
+        public static final int error_incorrect_password=0x7f06002d;
+        public static final int error_invalid_email=0x7f06002b;
+        public static final int error_invalid_password=0x7f06002c;
         public static final int fa_bar=0x7f060015;
         public static final int fa_cog=0x7f060016;
         public static final int fa_download=0x7f060014;
@@ -207,19 +212,20 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int fa_pencil_square_o=0x7f060018;
         public static final int fa_quote_left=0x7f06001a;
         public static final int fa_share=0x7f060013;
+        public static final int fa_spinner=0x7f060012;
         public static final int fa_times=0x7f06001b;
         public static final int fa_undo=0x7f060019;
         public static final int hello=0x7f060000;
         public static final int hello_world=0x7f060007;
         public static final int id=0x7f06000b;
         public static final int image=0x7f060010;
-        public static final int login_progress_signing_in=0x7f060029;
-        public static final int menu=0x7f060012;
+        public static final int login_progress_signing_in=0x7f06002a;
+        public static final int menu=0x7f060011;
         public static final int no_contents=0x7f06000f;
         /**  Strings related to login 
          */
-        public static final int prompt_email=0x7f060021;
-        public static final int prompt_password=0x7f060022;
+        public static final int prompt_email=0x7f060022;
+        public static final int prompt_password=0x7f060023;
         public static final int pull_to_refresh_pull_label=0x7f060002;
         public static final int pull_to_refresh_refreshing_label=0x7f060004;
         public static final int pull_to_refresh_release_label=0x7f060003;
@@ -228,11 +234,11 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int slide_write_image_btn_text=0x7f06001f;
         public static final int slide_write_memo_text=0x7f06001e;
         public static final int slide_write_subject_text=0x7f06001d;
-        public static final int spinner=0x7f060011;
         public static final int time=0x7f06000e;
         public static final int title=0x7f06000c;
         public static final int title_activity_fullscreen=0x7f060008;
-        public static final int title_activity_login=0x7f060020;
+        public static final int title_activity_login=0x7f060021;
+        public static final int youtube_fullscreen=0x7f060020;
     }
     public static final class style {
         /** 

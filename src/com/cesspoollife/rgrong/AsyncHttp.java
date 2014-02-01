@@ -24,6 +24,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 
+@SuppressWarnings({ "deprecation", "resource" })
 public class AsyncHttp extends AsyncTask<ArrayList<NameValuePair>, Void, Document> {
 	private AsyncResponse delegate;
 	private boolean isList;
@@ -31,7 +32,6 @@ public class AsyncHttp extends AsyncTask<ArrayList<NameValuePair>, Void, Documen
 	private static String cookie="";
 	private String type = "";
 
-	@SuppressWarnings("deprecation")
 	@Override
 	protected Document doInBackground(ArrayList<NameValuePair>... data) {
 		Document doc = null;
@@ -39,7 +39,6 @@ public class AsyncHttp extends AsyncTask<ArrayList<NameValuePair>, Void, Documen
 			String url = data[0].get(0).getValue();
 			UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(data[0], "EUC-KR");
 			HttpPost httpPost = new HttpPost(url);
-			HttpClient http = new DefaultHttpClient();
 			httpPost.setEntity(entityRequest);
 			if(type.equals("write")){
 				 MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE); 
@@ -63,6 +62,7 @@ public class AsyncHttp extends AsyncTask<ArrayList<NameValuePair>, Void, Documen
 			else{
 				httpPost.setHeader("Cookie",cookie);
 			}
+			HttpClient http = new DefaultHttpClient();
 			HttpResponse responsePost = http.execute(httpPost);
 			if(type.equals("write")){
 			}else if(login){
