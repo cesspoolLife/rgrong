@@ -85,7 +85,7 @@ public class ClickEventWrite implements OnClickListener {
 			imm.hideSoftInputFromWindow(memo.getWindowToken(), 0);
 			ArrayList<NameValuePair> data = new ArrayList<NameValuePair>();
 			data.add(new BasicNameValuePair("url", ((MainActivity)c).getWriteURL()));
-			data.add(new BasicNameValuePair("Referer", "http://rgrong.kr/m/"+((MainActivity)c).getURL()));
+			data.add(new BasicNameValuePair("Referer", "http://rgr.kr/m/"+((MainActivity)c).getURL()));
 			data.add(new BasicNameValuePair("subject", subject.getText().toString()));
 			data.add(new BasicNameValuePair("memo", memo.getText().toString()));
 			for(int i=0;i<((MainActivity)c).getUploadImagePath().size();i++){

@@ -9,8 +9,8 @@ public class Login {
 	private String id;
 	private String pw;
 	private ArrayList<NameValuePair> data;
-	private final String LOGIN_URL = "http://rgrong.kr/bbs/login_check.php";
-	private final String LOGOUT_URL = "http://rgrong.kr/bbs/logout.php";
+	private final String LOGIN_URL = "http://rgr.kr/rgr/login_check.php";
+	private final String LOGOUT_URL = "http://rgr.kr/rgr/logout.php";
 	
 	public Login(){
 		data = new ArrayList<NameValuePair>();

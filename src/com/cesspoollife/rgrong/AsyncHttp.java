@@ -41,17 +41,17 @@ public class AsyncHttp extends AsyncTask<ArrayList<NameValuePair>, Void, Documen
 			HttpPost httpPost = new HttpPost(url);
 			httpPost.setEntity(entityRequest);
 			if(type.equals("write")){
-				 MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE); 
-				 for(int index=0; index < data[0].size(); index++) {
-			            if(data[0].get(index).getName().indexOf("file")!=-1) {
+				MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE); 
+				for(int index=0; index < data[0].size(); index++) {
+					if(data[0].get(index).getName().indexOf("file")!=-1) {
 			                // If the key equals to "image", we use FileBody to transfer the data
-			                entity.addPart(data[0].get(index).getName(), new FileBody(new File (data[0].get(index).getValue())));
-			            } else {
+						entity.addPart(data[0].get(index).getName(), new FileBody(new File (data[0].get(index).getValue())));
+					}else{
 			                // Normal string data
-			                entity.addPart(data[0].get(index).getName(), new StringBody(data[0].get(index).getValue(), Charset.forName("EUC-KR")));
-			            }
-			        }
-			     httpPost.setEntity(entity);
+						entity.addPart(data[0].get(index).getName(), new StringBody(data[0].get(index).getValue(), Charset.forName("EUC-KR")));
+					}
+				}
+			    httpPost.setEntity(entity);
 				httpPost.setHeader("Cookie",cookie);
 				httpPost.addHeader("Referer", data[0].get(1).getValue());
 			}
@@ -69,7 +69,7 @@ public class AsyncHttp extends AsyncTask<ArrayList<NameValuePair>, Void, Documen
 				Header[] headers = responsePost.getHeaders("Set-Cookie");
                 for (Header header : headers)
                 	cookie = header.getValue();
-                HttpPost httpMain = new HttpPost("http://rgrong.kr/bbs/main.php");
+                HttpPost httpMain = new HttpPost("http://rgr.kr/rgr/main.php");
                 httpPost.setHeader("Cookie",cookie);
                 responsePost = http.execute(httpMain);
 			}
@@ -89,6 +89,7 @@ public class AsyncHttp extends AsyncTask<ArrayList<NameValuePair>, Void, Documen
 	
 	@Override
 	protected void onPostExecute(Document doc) {
+		Log.e("t", doc.toString());
 		if(this.delegate==null){
 			cookie="";
 		}

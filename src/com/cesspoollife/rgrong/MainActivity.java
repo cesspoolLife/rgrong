@@ -64,9 +64,9 @@ public class MainActivity extends Activity implements AsyncResponse{
 	public static final int LOGIN_ACTIVITY = 1;
 	public static final int SELECT_PICTURE = 2;
 	private ViewPager mPager;
-	private String menu = "mlist.php?id=rgr201311";
-	private String commentUrl = "http://rgrong.kr/bbs/vote_ex.php";
-	private String writeUrl = "http://rgrong.kr/m/write_ok.php";
+	private String menu = "mlist.php?id=rgr2014";
+	private String commentUrl = "http://rgr.kr/m/comment_ok.php";
+	private String writeUrl = "http://rgr.kr/m/write_ok.php";
 	private String menuText = "호기심해결";
 	private boolean init = true;
 	private int firstNo = 0;
@@ -91,7 +91,7 @@ public class MainActivity extends Activity implements AsyncResponse{
 			"스포츠", "연애특강", "큰마을", "연예인갤러리", "게임", "중고장터", "캥거루몰", "브랜디드", 
 			"컴퓨터", "사진/카메라", "패션/유행", "노래/음악", "영화/드라마", "만화/애니", "자전거",
 			"스마트폰", "LOL", "WOW", "디아블로3", "블소", "던파", "마영전", "스타크래프트", "마구마구"};
-	private String[] menuUrl= {"login", "mlist.php?id=rgr201311", "mlist.php?id=arthur", "mlist.php?id=rare",
+	private String[] menuUrl= {"login", "mlist.php?id=rgr2014", "mlist.php?id=arthur", "mlist.php?id=rare2014",
 			"mlist.php?id=100", "mlist.php?id=18news", "mlist.php?id=sports", "mlist.php?id=sports2",
 			"mlist.php?id=loveqa1", "mlist.php?id=plaza", "yonye.html", "mlist.php?id=sgm1",
 			"mlist.php?id=econo", "mlist.php?id=hideholic", "mlist.php?id=lux", "mlist.php?id=pcclub",
@@ -371,7 +371,7 @@ public class MainActivity extends Activity implements AsyncResponse{
 			isSync = true;
 			AsyncHttp http= new AsyncHttp();
 			http.setAsyncResponse(this, true);
-			String url = "http://rgrong.kr/m/"+menu+"&page="+String.valueOf(page);
+			String url = "http://rgr.kr/m/"+menu+"&page="+String.valueOf(page);
 			ArrayList<NameValuePair> data = new ArrayList<NameValuePair>();
 			data.add(new BasicNameValuePair("url", url));
 			http.execute(data);
@@ -494,7 +494,7 @@ public class MainActivity extends Activity implements AsyncResponse{
 					long id) {
 				mPager.setCurrentItem(1);
 				URL = list.get(position-1).url;
-				getHttpAsync("http://rgrong.kr/m/"+URL);
+				getHttpAsync("http://rgr.kr/m/"+URL);
 			}
         });
         if(!addPost)
@@ -662,7 +662,7 @@ public class MainActivity extends Activity implements AsyncResponse{
 				Toast.makeText(this, "로그인에 실패했습니다.", Toast.LENGTH_SHORT).show();
 			}
 		}else{
-			getHttpAsync("http://rgrong.kr/m/"+URL);
+			getHttpAsync("http://rgr.kr/m/"+URL);
 		}
 	}
 	
@@ -697,7 +697,8 @@ public class MainActivity extends Activity implements AsyncResponse{
 	}
 	
 	public String getCommentURL(){
-		return this.commentUrl;
+		int i = menu.indexOf("id=");
+		return this.commentUrl+"?"+menu.substring(i);
 	}
 	
 	public String getWritePage(){
@@ -705,7 +706,8 @@ public class MainActivity extends Activity implements AsyncResponse{
 	}
 	
 	public String getWriteURL(){
-		return this.writeUrl;
+		int i = menu.indexOf("id=");
+		return this.writeUrl+"?"+menu.substring(i);
 	}
 	
 	public ArrayList<String> getUploadImagePath(){

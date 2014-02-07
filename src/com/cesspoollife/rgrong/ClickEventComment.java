@@ -60,7 +60,7 @@ public class ClickEventComment implements OnClickListener {
 			imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
 			ArrayList<NameValuePair> data = new ArrayList<NameValuePair>();
 			data.add(new BasicNameValuePair("url", ((MainActivity)c).getCommentURL()));
-			data.add(new BasicNameValuePair("Referer", "http://rgrong.kr/m/"+((MainActivity)c).getURL()));
+			data.add(new BasicNameValuePair("Referer", "http://rgr.kr/m/"+((MainActivity)c).getURL()));
 			data.add(new BasicNameValuePair("memo",et.getText().toString()));
 		    List<NameValuePair> parameters;
 			try {
