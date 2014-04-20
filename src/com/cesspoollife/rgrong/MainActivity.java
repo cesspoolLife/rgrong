@@ -1,15 +1,18 @@
 package com.cesspoollife.rgrong;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -50,6 +53,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.costum.android.widget.PullAndLoadListView;
 import com.costum.android.widget.PullAndLoadListView.OnLoadMoreListener;
 import com.costum.android.widget.PullToRefreshListView.OnRefreshListener;
@@ -86,6 +90,7 @@ public class MainActivity extends Activity implements AsyncResponse{
 	private String URL;
 	private String writePage;
 	private ArrayList<String> uploadImagePath = new ArrayList<String>();
+	private WebView webview = null;
 	
 	private String[] menuName = {"로그인", "호기심해결", "모바일게임", "엽기/유머/레어", "명예의전당", "황당뉴스", "야구",
 			"스포츠", "연애특강", "큰마을", "연예인갤러리", "게임", "중고장터", "캥거루몰", "브랜디드", 
@@ -143,12 +148,26 @@ public class MainActivity extends Activity implements AsyncResponse{
 						}
 	    				
 	    			});
+	    			if(webview!=null){
+		    			try {
+		    				Class.forName("android.webkit.WebView").getMethod("onPause", (Class[]) null).invoke(webview, (Object[]) null);
+		    			} catch (Exception e) {
+		    				Log.e("webview", e.toString());
+		    			}
+					}
 				}else{
 					TextView tv = (TextView)findViewById(R.id.title_bar_left_first_btn);
 	    			tv.setText(R.string.fa_pencil_square_o);
 	    			tv.setTextSize((float)(getResources().getDimension(R.dimen.titlebar_btn_size)));
 	    			tv.setTypeface(fontawesome);
 	    			tv.setOnClickListener(new ClickEventWrite());
+	    			if(webview!=null){
+		    			try {
+		    				Class.forName("android.webkit.WebView").getMethod("onPause", (Class[]) null).invoke(webview, (Object[]) null);
+		    			} catch (Exception e) {
+		    				Log.e("webview", e.toString());
+		    			}
+					}
 				}
 			}
 			
@@ -236,8 +255,16 @@ public class MainActivity extends Activity implements AsyncResponse{
 	public void onBackPressed() {
 		if(findViewById(R.id.linear_photo).getVisibility()==View.VISIBLE)
 			findViewById(R.id.linear_photo).setVisibility(View.INVISIBLE);
-		else if(mPager.getCurrentItem()==1)
+		else if(mPager.getCurrentItem()==1){
 			mPager.setCurrentItem(0);
+			if(webview!=null){
+    			try {
+    				Class.forName("android.webkit.WebView").getMethod("onPause", (Class[]) null).invoke(webview, (Object[]) null);
+    			} catch (Exception e) {
+    				Log.e("webview", e.toString());
+    			}
+			}
+		}
 		else if(mPager.getCurrentItem()==2){
 			mPager.setCurrentItem(1);
 		}else{
@@ -525,12 +552,8 @@ public class MainActivity extends Activity implements AsyncResponse{
 				tv.setText("비공개");
 			elements = doc.getElementsByTag("table");
 			e = elements.get(5).getElementsByTag("td").first();
-			TextView contents = new TextView(this);
-			contents.setText(Html.fromHtml(e.html().trim()));
-			contents.setTextSize(20);
-			contents.setTypeface(null, Typeface.BOLD);
-			Linkify.addLinks(contents, Linkify.ALL);
-			cl.addView(contents);
+			Elements imgtag = e.getElementsByTag("img");
+			Iterator<Element> imgit = imgtag.iterator();
 			Pattern p = Pattern.compile("\\d{4}\\.\\d{2}\\.\\d{2} (\\d{2}\\:\\d{2}\\:\\d{2})");
 			Matcher m = p.matcher(doc.toString());
 			if(m.find()){
@@ -539,50 +562,61 @@ public class MainActivity extends Activity implements AsyncResponse{
 			}
 			Iterator<Element> it = doc.getElementsByAttributeValue("name", "zb_target_resize").iterator();
 			int j=0;
-			while(it.hasNext()){
-				e = it.next();
-				LinearLayout ll = (LinearLayout)getLayoutInflater().inflate(R.layout.linear_img, null);
-				ImageView i = (ImageView)ll.findViewById(R.id.contents_img);
-				i.setTag(e.attr("src"));
-				if(e.attr("src").indexOf(".gif")==-1){
-					AsyncImage hi = new AsyncImage(i, (ProgressBar)ll.findViewById(R.id.progressBar_img));
-					hi.execute(e.attr("src"));
-				}else{
-					Ion.with(i).load(e.attr("src")).setCallback(new FutureCallback<ImageView>(){
-
+			for(int k=0;k<2;k++){
+				while(it.hasNext()){
+					Element img = it.next();
+					LinearLayout ll = (LinearLayout)getLayoutInflater().inflate(R.layout.linear_img, null);
+					ImageView i = (ImageView)ll.findViewById(R.id.contents_img);
+					i.setTag(img.attr("src"));
+					if(img.attr("src").indexOf(".gif")==-1){
+						AsyncImage hi = new AsyncImage(i, (ProgressBar)ll.findViewById(R.id.progressBar_img));
+						hi.execute(img.attr("src"));
+					}else{
+						Ion.with(i).load(img.attr("src")).setCallback(new FutureCallback<ImageView>(){
+	
+							@Override
+							public void onCompleted(Exception e, ImageView result) {
+								LinearLayout ll = (LinearLayout)result.getParent();
+								ll.findViewById(R.id.progressBar_img).setVisibility(View.GONE);
+							}
+							
+						});
+			    		i.setAdjustViewBounds(true);
+					}
+					i.setOnClickListener(new OnClickListener(){
+	
 						@Override
-						public void onCompleted(Exception e, ImageView result) {
-							LinearLayout ll = (LinearLayout)result.getParent();
-							ll.findViewById(R.id.progressBar_img).setVisibility(View.GONE);
+						public void onClick(View v) {
+							FrameLayout ll = (FrameLayout) findViewById(R.id.linear_photo);
+							ImageView iv = (ImageView) findViewById(R.id.photoview);
+							iv.destroyDrawingCache();
+							iv.refreshDrawableState();
+							iv.setImageDrawable(((ImageView)v).getDrawable());
+							iv.setTag(v.getTag());
+							ll.setVisibility(View.VISIBLE);
 						}
 						
 					});
-		    		i.setAdjustViewBounds(true);
+					i.setOnLongClickListener(new OnLongClickListener(){
+	
+						@Override
+						public boolean onLongClick(View v) {
+							openContextMenu(v);
+							return true;
+						}
+					});
+					registerForContextMenu(i);
+					cl.addView(ll, j++);
+					img.remove();
 				}
-				i.setOnClickListener(new OnClickListener(){
-
-					@Override
-					public void onClick(View v) {
-						FrameLayout ll = (FrameLayout) findViewById(R.id.linear_photo);
-						ImageView iv = (ImageView) findViewById(R.id.photoview);
-						iv.destroyDrawingCache();
-						iv.refreshDrawableState();
-						iv.setImageDrawable(((ImageView)v).getDrawable());
-						iv.setTag(v.getTag());
-						ll.setVisibility(View.VISIBLE);
-					}
-					
-				});
-				i.setOnLongClickListener(new OnLongClickListener(){
-
-					@Override
-					public boolean onLongClick(View v) {
-						openContextMenu(v);
-						return true;
-					}});
-				cl.addView(ll, j++);
-				registerForContextMenu(cl);
+				it = imgit;
 			}
+			TextView contents = new TextView(this);
+			contents.setText(Html.fromHtml(e.html().trim()));
+			contents.setTextSize(20);
+			contents.setTypeface(null, Typeface.BOLD);
+			Linkify.addLinks(contents, Linkify.ALL);
+			cl.addView(contents);
 			p = Pattern.compile("www\\.youtube\\.com\\/v\\/([a-zA-Z0-9_\\-]+)\\?");
 			m = p.matcher(doc.toString());
 			String prev_id = "";
@@ -609,6 +643,7 @@ public class MainActivity extends Activity implements AsyncResponse{
 					}
 		        	
 		        });
+		        webview = browser;
 		        cl.addView(ll, j++);
 			}
 			int numtable = elements.size()-5-login;

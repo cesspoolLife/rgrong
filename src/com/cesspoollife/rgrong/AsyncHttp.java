@@ -89,7 +89,6 @@ public class AsyncHttp extends AsyncTask<ArrayList<NameValuePair>, Void, Documen
 	
 	@Override
 	protected void onPostExecute(Document doc) {
-		Log.e("t", doc.toString());
 		if(this.delegate==null){
 			cookie="";
 		}
